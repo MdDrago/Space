@@ -4,18 +4,28 @@ package com.mememe.game.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.mememe.game.Game;
+import com.mememe.game.gameplay.Ship;
 
 /**
  * Created by Westh on 15.01.2017.
  */
 
 public class PlayScreen extends DefaultScreen{
-    private Texture bg;
+    private Image bg;
+    private Stage stage;
+
     public PlayScreen(Game game) {
         super(game);
-        bg = new Texture("backGround.jpg");
-        bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        stage = new Stage();
+        bg = new Image(new Texture("backGround.jpg"));
+        Gdx.input.setInputProcessor(stage);
+
+        stage.addActor(bg);
+        stage.addActor(new Ship());
     }
 
     @Override
@@ -31,9 +41,13 @@ public class PlayScreen extends DefaultScreen{
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+       /* game.batch.begin();
         game.batch.draw(bg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        game.batch.end();
+        game.batch.end();*/
+
+        stage.act(delta);
+        stage.draw();
+
     }
 
     @Override
